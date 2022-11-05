@@ -6,7 +6,7 @@
     "distDir": "../dist"
   },
   "package": {
-    "productName": "cypher",
+    "productName": "helmer",
     "version": "0.0.0"
   },
   "tauri": {
@@ -52,18 +52,7 @@
     "updater": {
       "active": false
     },
-    "windows": [
-      {
-        "fullscreen": false,
-        "height": 400,
-        "resizable": true,
-        "title": "Cypher",
-        "width": 600,
-        "transparent": true,
-        "skipTaskbar": true,
-        "decorations": false
-      }
-    ],
+    "windows": [],
     "systemTray": {
       "iconPath": "icons/icon.png",
       "iconAsTemplate": true
