@@ -1033,6 +1033,7 @@ checksum = "2540771e65fc8cb83cd6e8a237f70c319bd5c29f78ed1084ba5d50eeac86f7f9"
 name = "helmer"
 version = "0.0.0"
 dependencies = [
+ "repng",
  "scrap",
  "serde",
  "serde_json",
@@ -2180,6 +2181,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3acd125665422973a33ac9d3dd2df85edad0f4ae9b00dafb1a05e43a9f5ef8e7"
 dependencies = [
  "winapi 0.3.9",
+]
+
+[[package]]
+name = "repng"
+version = "0.2.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0dd57cd2cb5cc699b3eb4824d654e5a32f3bc013766da4966f71fe94805abbda"
+dependencies = [
+ "byteorder",
+ "flate2",
 ]
 
 [[package]]

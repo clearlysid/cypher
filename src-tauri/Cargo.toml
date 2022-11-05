@@ -14,6 +14,7 @@ rust-version = "1.57"
 tauri-build = { version = "1.1", features = [] }
 
 [dependencies]
+repng = "0.2.2"
 scrap = "0.5.0"
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
