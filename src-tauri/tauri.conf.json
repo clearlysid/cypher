@@ -7,7 +7,7 @@
   },
   "package": {
     "productName": "helmer",
-    "version": "0.0.0"
+    "version": "../package.json"
   },
   "tauri": {
     "allowlist": {
@@ -52,7 +52,17 @@
     "updater": {
       "active": false
     },
-    "windows": [],
+    "windows": [
+      {
+        "title": "Main",
+        "width": 800,
+        "height": 600,
+        "resizable": true,
+        "fullscreen": false,
+        "transparent": true,
+        "decorations": false
+      }
+    ],
     "systemTray": {
       "iconPath": "icons/icon.png",
       "iconAsTemplate": true

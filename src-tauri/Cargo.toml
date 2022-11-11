@@ -15,6 +15,7 @@ tauri-build = { version = "1.1", features = [] }
 
 [dependencies]
 repng = "0.2.2"
+window-vibrancy = "0.3.1"
 scrap = "0.5.0"
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }

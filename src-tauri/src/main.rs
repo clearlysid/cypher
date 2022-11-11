@@ -6,7 +6,10 @@
 extern crate repng;
 extern crate scrap;
 
-use tauri::{CustomMenuItem, SystemTray, SystemTrayEvent, SystemTrayMenu, SystemTrayMenuItem};
+use tauri::{
+    CustomMenuItem, Manager, SystemTray, SystemTrayEvent, SystemTrayMenu, SystemTrayMenuItem,
+};
+use window_vibrancy::{apply_vibrancy, NSVisualEffectMaterial};
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 
@@ -19,6 +22,16 @@ fn main() {
     let tray = SystemTray::new().with_menu(tray_menu);
 
     tauri::Builder::default()
+        .setup(|app| {
+            let window = app.get_window("main").unwrap();
+
+            let border_radius = 10.0;
+
+            #[cfg(target_os = "macos")]
+            apply_vibrancy(&window, NSVisualEffectMaterial::HudWindow, None, None)
+                .expect("Unsupported platform! 'apply_vibrancy' is only supported on macOS");
+            Ok(())
+        })
         .system_tray(tray)
         .on_system_tray_event(|app, event| match event {
             SystemTrayEvent::LeftClick {
@@ -46,76 +59,51 @@ fn main() {
                     }
                     "displays" => {
                         use scrap::{Capturer, Display};
-                        use std::fs::File;
                         use std::io::ErrorKind::WouldBlock;
-                        use std::thread;
-                        use std::time::Duration;
+                        use std::io::Write;
+                        use std::process::{Command, Stdio};
 
-                        let displays = Display::all().unwrap();
+                        let d = Display::primary().unwrap();
+                        let (w, h) = (d.width(), d.height());
 
-                        for (i, display) in displays.iter().enumerate() {
-                            println!(
-                                "Display {} [{}x{}]",
-                                i + 1,
-                                display.width(),
-                                display.height()
-                            );
-                        }
+                        let child = Command::new("ffplay")
+                            .args(&[
+                                "-f",
+                                "rawvideo",
+                                "-pixel_format",
+                                "bgr0",
+                                "-video_size",
+                                &format!("{}x{}", w, h),
+                                "-framerate",
+                                "60",
+                                "-",
+                            ])
+                            .stdin(Stdio::piped())
+                            .spawn()
+                            .expect("This example requires ffplay.");
 
-                        let one_second = Duration::new(1, 0);
-                        let one_frame = one_second / 60;
-
-                        let display = Display::primary().expect("Couldn't find primary display.");
-                        let mut capturer = Capturer::new(display).expect("Couldn't begin capture.");
-                        let (w, h) = (capturer.width(), capturer.height());
+                        let mut capturer = Capturer::new(d).unwrap();
+                        let mut out = child.stdin.unwrap();
 
                         loop {
-                            // Wait until there's a frame.
-
-                            let buffer = match capturer.frame() {
-                                Ok(buffer) => buffer,
-                                Err(error) => {
-                                    if error.kind() == WouldBlock {
-                                        // Keep spinning.
-                                        thread::sleep(one_frame);
-                                        continue;
-                                    } else {
-                                        panic!("Error: {}", error);
+                            match capturer.frame() {
+                                Ok(frame) => {
+                                    // Write the frame, removing end-of-row padding.
+                                    let stride = frame.len() / h;
+                                    let rowlen = 4 * w;
+                                    for row in frame.chunks(stride) {
+                                        let row = &row[..rowlen];
+                                        out.write_all(row).unwrap();
                                     }
                                 }
-                            };
-
-                            println!("Captured! Saving...");
-
-                            // Flip the ARGB image into a BGRA image.
-
-                            let mut bitflipped = Vec::with_capacity(w * h * 4);
-                            let stride = buffer.len() / h;
-
-                            for y in 0..h {
-                                for x in 0..w {
-                                    let i = stride * y + 4 * x;
-                                    bitflipped.extend_from_slice(&[
-                                        buffer[i + 2],
-                                        buffer[i + 1],
-                                        buffer[i],
-                                        255,
-                                    ]);
+                                Err(ref e) if e.kind() == WouldBlock => {
+                                    // Wait for the frame.
+                                }
+                                Err(_) => {
+                                    // We're done here.
+                                    break;
                                 }
                             }
-
-                            // Save the image.
-
-                            repng::encode(
-                                File::create("./../screenshot.png").unwrap(),
-                                w as u32,
-                                h as u32,
-                                &bitflipped,
-                            )
-                            .unwrap();
-
-                            println!("Image saved to `screenshot.png`.");
-                            break;
                         }
                     }
                     _ => {}
