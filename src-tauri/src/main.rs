@@ -4,7 +4,7 @@
 )]
 
 use tauri::{
-    CustomMenuItem, Manager, SystemTray, SystemTrayEvent, SystemTrayMenu, SystemTrayMenuItem,
+    CustomMenuItem, Manager, Menu, SystemTray, SystemTrayEvent, SystemTrayMenu, SystemTrayMenuItem,
     WindowBuilder, WindowUrl,
 };
 
@@ -12,7 +12,8 @@ use tauri::{
 
 fn main() {
     // TODO: extract all menu items to an array
-    // TODO: add click events for each menu item
+
+    let menu = Menu::new();
 
     let tray_menu = SystemTrayMenu::new()
         .add_item(CustomMenuItem::new("record".to_string(), "Start Recording"))
@@ -36,9 +37,9 @@ fn main() {
     let tray = SystemTray::new().with_menu(tray_menu);
 
     tauri::Builder::default()
+        .menu(menu)
         .setup(|app| {
             // let _window = app.get_window("editor").unwrap();
-
             Ok(())
         })
         .system_tray(tray)
@@ -117,6 +118,12 @@ fn main() {
             },
             _ => {}
         })
-        .run(tauri::generate_context!())
-        .expect("error while running tauri application");
+        .build(tauri::generate_context!())
+        .expect("error while running tauri application")
+        .run(|_app_handle, event| match event {
+            tauri::RunEvent::ExitRequested { api, .. } => {
+                api.prevent_exit();
+            }
+            _ => {}
+        });
 }
