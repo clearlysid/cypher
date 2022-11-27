@@ -19,7 +19,7 @@ fn main() {
     let tray_menu = SystemTrayMenu::new()
         .add_item(
             CustomMenuItem::new("record".to_string(), "Start Recording")
-                .accelerator("CommandOrControl+Shift+8".to_string()),
+                .accelerator("CommandOrControl+Shift+2".to_string()),
         )
         .add_item(
             CustomMenuItem::new("preferences".to_string(), "Preferences")
@@ -131,7 +131,7 @@ fn main() {
         tauri::RunEvent::Ready => {
             _app_handle
                 .global_shortcut_manager()
-                .register("CmdOrCtrl+Shift+8", move || {
+                .register("CmdOrCtrl+Shift+2", move || {
                     record::main();
                 })
                 .unwrap();
