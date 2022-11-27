@@ -4,15 +4,14 @@
 )]
 
 use tauri::{
-    CustomMenuItem, Manager, Menu, SystemTray, SystemTrayEvent, SystemTrayMenu, SystemTrayMenuItem,
-    WindowBuilder, WindowUrl,
+    ActivationPolicy, CustomMenuItem, Manager, Menu, SystemTray, SystemTrayEvent, SystemTrayMenu,
+    SystemTrayMenuItem, TitleBarStyle, WindowBuilder, WindowUrl,
 };
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 
 fn main() {
     // TODO: extract all menu items to an array
-
     let menu = Menu::new();
 
     let tray_menu = SystemTrayMenu::new()
@@ -36,7 +35,8 @@ fn main() {
 
     let tray = SystemTray::new().with_menu(tray_menu);
 
-    tauri::Builder::default()
+    #[allow(unused_mut)]
+    let mut app = tauri::Builder::default()
         .menu(menu)
         .setup(|app| {
             // let _window = app.get_window("editor").unwrap();
@@ -104,6 +104,8 @@ fn main() {
                         .title("About Helmer")
                         .focused(true)
                         .skip_taskbar(true)
+                        .title_bar_style(TitleBarStyle::Overlay)
+                        .accept_first_mouse(true)
                         .inner_size(300.0, 300.0)
                         .resizable(false)
                         .always_on_top(true)
@@ -119,11 +121,15 @@ fn main() {
             _ => {}
         })
         .build(tauri::generate_context!())
-        .expect("error while running tauri application")
-        .run(|_app_handle, event| match event {
-            tauri::RunEvent::ExitRequested { api, .. } => {
-                api.prevent_exit();
-            }
-            _ => {}
-        });
+        .expect("error while running tauri application");
+
+    #[cfg(target_os = "macos")]
+    app.set_activation_policy(ActivationPolicy::Accessory);
+
+    app.run(|_app_handle, event| match event {
+        tauri::RunEvent::ExitRequested { api, .. } => {
+            api.prevent_exit();
+        }
+        _ => {}
+    });
 }
