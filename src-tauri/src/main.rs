@@ -15,11 +15,14 @@ fn main() {
     let menu = Menu::new();
 
     let tray_menu = SystemTrayMenu::new()
-        .add_item(CustomMenuItem::new("record".to_string(), "Start Recording"))
-        .add_item(CustomMenuItem::new(
-            "preferences".to_string(),
-            "Preferences",
-        ))
+        .add_item(
+            CustomMenuItem::new("record".to_string(), "Start Recording")
+                .accelerator("CommandOrControl+Shift+8".to_string()),
+        )
+        .add_item(
+            CustomMenuItem::new("preferences".to_string(), "Preferences")
+                .accelerator("CommandOrControl+,".to_string()),
+        )
         .add_native_item(SystemTrayMenuItem::Separator)
         .add_item(CustomMenuItem::new(
             "feedback".to_string(),
@@ -49,14 +52,8 @@ fn main() {
                 size: _,
                 ..
             } => {
-                // println!("menu icon left clicked");
-            }
-            SystemTrayEvent::RightClick {
-                position: _,
-                size: _,
-                ..
-            } => {
-                // println!("menu icon right clicked");
+                println!("menu icon clicked");
+                // TODO: open canvas, quick record
             }
             SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
                 "record" => {
@@ -74,10 +71,9 @@ fn main() {
                         )
                         .title("Preferences")
                         .focused(true)
-                        .skip_taskbar(true)
                         .resizable(true)
                         .build()
-                        .expect("failed to create example window");
+                        .expect("Failed to open Preferences");
                     }
                 }
                 "feedback" => {
@@ -102,15 +98,16 @@ fn main() {
                             WindowUrl::App("/about".into()),
                         )
                         .title("About Helmer")
+                        .hidden_title(true)
                         .focused(true)
-                        .skip_taskbar(true)
+                        .center()
                         .title_bar_style(TitleBarStyle::Overlay)
                         .accept_first_mouse(true)
-                        .inner_size(300.0, 300.0)
+                        .inner_size(320.0, 400.0)
                         .resizable(false)
                         .always_on_top(true)
                         .build()
-                        .expect("failed to create example window");
+                        .expect("Failed to open About");
                     }
                 }
                 "quit" => {

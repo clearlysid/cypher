@@ -15,8 +15,8 @@
     },
     "bundle": {
       "active": true,
-      "category": "DeveloperTool",
-      "copyright": "",
+      "category": "Video",
+      "copyright": "©️Siddharth Jha",
       "deb": {
         "depends": []
       },
@@ -54,8 +54,8 @@
     },
     "systemTray": {
       "iconPath": "icons/icon.png",
-      "iconAsTemplate": true
-    },
-    "macOSPrivateApi": true
+      "iconAsTemplate": true,
+      "menuOnLeftClick": false
+    }
   }
 }

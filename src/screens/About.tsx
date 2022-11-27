@@ -1,7 +1,6 @@
 import { version, platform } from '@tauri-apps/api/os';
 import { getName, getVersion } from '@tauri-apps/api/app';
 
-
 const appName = await getName();
 const appVersion = await getVersion();
 const osVersion = await version();
