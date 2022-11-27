@@ -4,9 +4,11 @@
 )]
 
 use tauri::{
-    ActivationPolicy, CustomMenuItem, Manager, Menu, SystemTray, SystemTrayEvent, SystemTrayMenu,
-    SystemTrayMenuItem, TitleBarStyle, WindowBuilder, WindowUrl,
+    ActivationPolicy, CustomMenuItem, GlobalShortcutManager, Manager, Menu, SystemTray,
+    SystemTrayEvent, SystemTrayMenu, SystemTrayMenuItem, TitleBarStyle, WindowBuilder, WindowUrl,
 };
+
+mod record;
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 
@@ -41,10 +43,7 @@ fn main() {
     #[allow(unused_mut)]
     let mut app = tauri::Builder::default()
         .menu(menu)
-        .setup(|app| {
-            // let _window = app.get_window("editor").unwrap();
-            Ok(())
-        })
+        .setup(|_app| Ok(()))
         .system_tray(tray)
         .on_system_tray_event(|app, event| match event {
             SystemTrayEvent::LeftClick {
@@ -52,17 +51,19 @@ fn main() {
                 size: _,
                 ..
             } => {
-                println!("menu icon clicked");
-                // TODO: open canvas, quick record
+                record::main();
             }
             SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
                 "record" => {
-                    // TODO: open canvas, continue product flow
+                    record::main();
                 }
                 "preferences" => {
                     // TODO: find out what's the best way to "store" preferences?
                     if app.get_window("preferences").is_some() {
-                        app.get_window("preferences").unwrap().show();
+                        app.get_window("preferences")
+                            .unwrap()
+                            .show()
+                            .expect_err("Failed to show Preferences");
                     } else {
                         WindowBuilder::new(
                             app,
@@ -90,7 +91,10 @@ fn main() {
                 }
                 "about" => {
                     if app.get_window("about").is_some() {
-                        app.get_window("about").unwrap().show();
+                        app.get_window("about")
+                            .unwrap()
+                            .show()
+                            .expect_err("Failed to show About");
                     } else {
                         WindowBuilder::new(
                             app,
@@ -124,6 +128,15 @@ fn main() {
     app.set_activation_policy(ActivationPolicy::Accessory);
 
     app.run(|_app_handle, event| match event {
+        tauri::RunEvent::Ready => {
+            _app_handle
+                .global_shortcut_manager()
+                .register("CmdOrCtrl+Shift+8", move || {
+                    record::main();
+                })
+                .unwrap();
+        }
+
         tauri::RunEvent::ExitRequested { api, .. } => {
             api.prevent_exit();
         }
