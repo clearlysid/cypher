@@ -11,7 +11,8 @@
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-text-size-adjust: 100%;
-	background-color: rgba(20, 20, 20, 0.4);
+	/* background-color: rgba(20, 20, 20, 0.4); */
+	background-color: rgba(20, 20, 20);
 }
 
 .container {
