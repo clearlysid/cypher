@@ -17,7 +17,7 @@
     "react-webcam": "^7.0.1"
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^1.2.0",
+    "@tauri-apps/cli": "^1.2.1",
     "@types/node": "^18.7.10",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
