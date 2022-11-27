@@ -1,19 +1,19 @@
-// import { invoke } from "@tauri-apps/api/tauri";
-import "./App.css";
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Stage from "./screens/Stage";
+import About from "./screens/About";
+import Preferences from "./screens/Preferences";
+import "./style.css";
 
-function App() {
-
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    // setGreetMsg(await invoke("greet", { name }));
-  }
-
-  return (
-    <div className="container" data-tauri-drag-region>
-      <h1>Helmer v0.0.3</h1>
-
-    </div>
-  );
-}
-
-export default App;
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <Routes>
+        <Route index element={<Stage />} />
+        <Route path="about" element={<About />} />
+        <Route path="preferences" element={<Preferences />} />
+      </Routes>
+    </BrowserRouter>
+  </React.StrictMode>
+);
