@@ -3,33 +3,42 @@
     windows_subsystem = "windows"
 )]
 
-extern crate repng;
-extern crate scrap;
-
 use tauri::{
     CustomMenuItem, Manager, SystemTray, SystemTrayEvent, SystemTrayMenu, SystemTrayMenuItem,
+    WindowBuilder, WindowUrl,
 };
-use window_vibrancy::{apply_vibrancy, NSVisualEffectMaterial};
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 
 fn main() {
+    // TODO: extract all menu items to an array
+    // TODO: add click events for each menu item
+
     let tray_menu = SystemTrayMenu::new()
-        .add_item(CustomMenuItem::new("displays".to_string(), "Displays"))
+        .add_item(CustomMenuItem::new("record".to_string(), "Start Recording"))
+        .add_item(CustomMenuItem::new(
+            "preferences".to_string(),
+            "Preferences",
+        ))
         .add_native_item(SystemTrayMenuItem::Separator)
+        .add_item(CustomMenuItem::new(
+            "feedback".to_string(),
+            "Send Feedback...",
+        ))
+        .add_item(CustomMenuItem::new(
+            "changelog".to_string(),
+            "View Changelog",
+        ))
+        .add_native_item(SystemTrayMenuItem::Separator)
+        .add_item(CustomMenuItem::new("about".to_string(), "About Helmer"))
         .add_item(CustomMenuItem::new("quit".to_string(), "Quit"));
 
     let tray = SystemTray::new().with_menu(tray_menu);
 
     tauri::Builder::default()
         .setup(|app| {
-            let window = app.get_window("main").unwrap();
+            // let _window = app.get_window("editor").unwrap();
 
-            let border_radius = 10.0;
-
-            #[cfg(target_os = "macos")]
-            apply_vibrancy(&window, NSVisualEffectMaterial::HudWindow, None, None)
-                .expect("Unsupported platform! 'apply_vibrancy' is only supported on macOS");
             Ok(())
         })
         .system_tray(tray)
@@ -39,76 +48,73 @@ fn main() {
                 size: _,
                 ..
             } => {
-                println!("system tray received a left click");
+                // println!("menu icon left clicked");
             }
             SystemTrayEvent::RightClick {
                 position: _,
                 size: _,
                 ..
             } => {
-                println!("system tray received a right click");
+                // println!("menu icon right clicked");
             }
-            SystemTrayEvent::MenuItemClick { id, .. } => {
-                match id.as_str() {
-                    "quit" => {
-                        std::process::exit(0);
-                    }
-                    "hide" => {
-                        //   let window = app.get_window("main").unwrap();
-                        //   window.hide().unwrap();
-                    }
-                    "displays" => {
-                        use scrap::{Capturer, Display};
-                        use std::io::ErrorKind::WouldBlock;
-                        use std::io::Write;
-                        use std::process::{Command, Stdio};
-
-                        let d = Display::primary().unwrap();
-                        let (w, h) = (d.width(), d.height());
-
-                        let child = Command::new("ffplay")
-                            .args(&[
-                                "-f",
-                                "rawvideo",
-                                "-pixel_format",
-                                "bgr0",
-                                "-video_size",
-                                &format!("{}x{}", w, h),
-                                "-framerate",
-                                "60",
-                                "-",
-                            ])
-                            .stdin(Stdio::piped())
-                            .spawn()
-                            .expect("This example requires ffplay.");
-
-                        let mut capturer = Capturer::new(d).unwrap();
-                        let mut out = child.stdin.unwrap();
-
-                        loop {
-                            match capturer.frame() {
-                                Ok(frame) => {
-                                    // Write the frame, removing end-of-row padding.
-                                    let stride = frame.len() / h;
-                                    let rowlen = 4 * w;
-                                    for row in frame.chunks(stride) {
-                                        let row = &row[..rowlen];
-                                        out.write_all(row).unwrap();
-                                    }
-                                }
-                                Err(ref e) if e.kind() == WouldBlock => {
-                                    // Wait for the frame.
-                                }
-                                Err(_) => {
-                                    // We're done here.
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    _ => {}
+            SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
+                "record" => {
+                    // TODO: open canvas, continue product flow
                 }
-            }
+                "preferences" => {
+                    // TODO: find out what's the best way to "store" preferences?
+                    if app.get_window("preferences").is_some() {
+                        app.get_window("preferences").unwrap().show();
+                    } else {
+                        WindowBuilder::new(
+                            app,
+                            "preferences", // the unique label
+                            WindowUrl::App("/preferences".into()),
+                        )
+                        .title("Preferences")
+                        .focused(true)
+                        .skip_taskbar(true)
+                        .resizable(true)
+                        .build()
+                        .expect("failed to create example window");
+                    }
+                }
+                "feedback" => {
+                    // For a better UX, we should check if the given URL is already open.
+                    // If yes, we should focus the window/tab instead of opening a new one.
+                    if webbrowser::open("https://www.helmer.app/feedback").is_ok() {
+                        println!("Feedback Form Opened");
+                    }
+                }
+                "changelog" => {
+                    if webbrowser::open("https://www.helmer.app/changelog").is_ok() {
+                        println!("Changelog Opened");
+                    }
+                }
+                "about" => {
+                    if app.get_window("about").is_some() {
+                        app.get_window("about").unwrap().show();
+                    } else {
+                        WindowBuilder::new(
+                            app,
+                            "about", // the unique label
+                            WindowUrl::App("/about".into()),
+                        )
+                        .title("About Helmer")
+                        .focused(true)
+                        .skip_taskbar(true)
+                        .inner_size(300.0, 300.0)
+                        .resizable(false)
+                        .always_on_top(true)
+                        .build()
+                        .expect("failed to create example window");
+                    }
+                }
+                "quit" => {
+                    std::process::exit(0);
+                }
+                _ => {}
+            },
             _ => {}
         })
         .run(tauri::generate_context!())

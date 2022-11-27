@@ -6,7 +6,7 @@
     "distDir": "../dist"
   },
   "package": {
-    "productName": "helmer",
+    "productName": "Helmer",
     "version": "../package.json"
   },
   "tauri": {
@@ -28,7 +28,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tauri.dev",
+      "identifier": "com.helmer.dev",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
@@ -52,17 +52,6 @@
     "updater": {
       "active": false
     },
-    "windows": [
-      {
-        "title": "Main",
-        "width": 800,
-        "height": 600,
-        "resizable": true,
-        "fullscreen": false,
-        "transparent": true,
-        "decorations": false
-      }
-    ],
     "systemTray": {
       "iconPath": "icons/icon.png",
       "iconAsTemplate": true
