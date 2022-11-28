@@ -1,6 +1,11 @@
-:root {
+* {
+	margin: 0;
+	padding: 0;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
 		Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+:root {
 	font-size: 16px;
 	line-height: 24px;
 	overflow: hidden;
@@ -15,31 +20,6 @@
 	background-color: rgba(20, 20, 20);
 }
 
-.container {
-	margin: 0;
-	padding-top: 10vh;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	text-align: center;
-}
-
-.logo {
-	height: 6em;
-	padding: 1.5em;
-	will-change: filter;
-	transition: 0.6s;
-}
-
-.logo.tauri:hover {
-	filter: drop-shadow(0 0 2em #24c8db);
-}
-
-.row {
-	display: flex;
-	justify-content: center;
-}
-
 a {
 	font-weight: 500;
 	color: #646cff;
@@ -50,10 +30,36 @@ a:hover {
 	color: #24c8db;
 }
 
-h1 {
+.about h1 {
 	text-align: center;
-	font-weight: 800;
-	letter-spacing: 0.6px;
+	font-weight: 700;
+	letter-spacing: -0.04em;
+	font-size: 22px;
+	margin-top: 16px;
+	margin-bottom: 4px;
+}
+
+.about p,
+.about footer {
+	font-size: 10px;
+	line-height: 140%;
+	opacity: 0.4;
+}
+
+.about section {
+	display: flex;
+	gap: 12px;
+	margin-bottom: 3px;
+}
+
+.about > section > p:first-child {
+	width: 80px;
+	text-align: right;
+}
+
+.about > section > p:last-child {
+	width: 80px;
+	opacity: 1;
 }
 
 input,
@@ -81,8 +87,4 @@ button:hover {
 input,
 button {
 	outline: none;
-}
-
-#greet-input {
-	margin-right: 5px;
 }
