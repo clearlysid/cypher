@@ -3,7 +3,7 @@ use tauri::{
     SystemTrayMenuItem, TitleBarStyle, WindowBuilder, WindowUrl,
 };
 
-// mod record;
+use super::record;
 
 pub fn tray_menu() -> SystemTray {
     // TODO: extract all menu items to an array
@@ -39,6 +39,14 @@ pub fn tray_menu() -> SystemTray {
     return SystemTray::new().with_menu(tray_menu);
 }
 
+fn open_link(url: &str) {
+    // For a better UX, we should check if the given URL is already open.
+    // If yes, we should focus the window/tab instead of opening a new one.
+    if webbrowser::open(url).is_ok() {
+        println!("Link opened");
+    }
+}
+
 pub fn on_system_tray_event(app: &AppHandle, event: SystemTrayEvent) {
     match event {
         SystemTrayEvent::LeftClick {
@@ -46,11 +54,11 @@ pub fn on_system_tray_event(app: &AppHandle, event: SystemTrayEvent) {
             size: _,
             ..
         } => {
-            // record::main();
+            record::main();
         }
         SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
             "record" => {
-                // record::main();
+                record::main();
             }
             "preferences" => {
                 // TODO: find out what's the best way to "store" preferences?
@@ -72,18 +80,8 @@ pub fn on_system_tray_event(app: &AppHandle, event: SystemTrayEvent) {
                     .expect("Failed to open Preferences");
                 }
             }
-            "feedback" => {
-                // For a better UX, we should check if the given URL is already open.
-                // If yes, we should focus the window/tab instead of opening a new one.
-                if webbrowser::open("https://www.helmer.app/feedback").is_ok() {
-                    println!("Feedback Form Opened");
-                }
-            }
-            "changelog" => {
-                if webbrowser::open("https://www.helmer.app/changelog").is_ok() {
-                    println!("Changelog Opened");
-                }
-            }
+            "feedback" => open_link("https://www.helmer.app/feedback"),
+            "changelog" => open_link("https://www.helmer.app/changelog"),
             "about" => {
                 if app.get_window("about").is_some() {
                     app.get_window("about")
