@@ -28,7 +28,7 @@ pub fn main() {
     //     .unwrap();
     // let desktop = desktop_dir();
 
-    let mut cmd = Command::new("ffmpeg")
+    Command::new("ffmpeg")
         .args([
             "-f",
             "avfoundation",
