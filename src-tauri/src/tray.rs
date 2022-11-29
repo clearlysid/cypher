@@ -3,7 +3,7 @@ use tauri::{
     SystemTrayMenuItem, TitleBarStyle, WindowBuilder, WindowUrl,
 };
 
-use super::record;
+use super::stage;
 
 pub fn tray_menu() -> SystemTray {
     // TODO: extract all menu items to an array
@@ -54,11 +54,11 @@ pub fn on_system_tray_event(app: &AppHandle, event: SystemTrayEvent) {
             size: _,
             ..
         } => {
-            record::main();
+            stage::main();
         }
         SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
             "record" => {
-                record::main();
+                stage::main();
             }
             "preferences" => {
                 // TODO: find out what's the best way to "store" preferences?
