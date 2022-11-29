@@ -4,7 +4,7 @@ version = "0.0.0"
 description = "Next-gen screen capture"
 authors = ["Siddharth Jha"]
 license = ""
-repository = ""
+repository = "https://www.github.com/clearlysid/helmer"
 edition = "2021"
 rust-version = "1.57"
 
@@ -14,6 +14,7 @@ rust-version = "1.57"
 tauri-build = { version = "1.1", features = [] }
 
 [dependencies]
+enigo = "0.0.14"
 webbrowser = "0.8.2"
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
