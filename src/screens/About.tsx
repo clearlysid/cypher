@@ -21,6 +21,7 @@ const AppIconPlaceholder = styled('img', {
 	transition: `all 0.2s ease`,
 	border: `2px solid rgba(0, 0, 0, 0.3)`,
 	boxShadow: `0 8px 24px rgba(65, 0, 203, 0.4)`,
+	userSelect: 'none',
 
 	'&:hover': {
 		transform: `scale(1.1) rotate(5deg)`,
@@ -43,7 +44,7 @@ const MetadataSection = styled('div', {
 const MetadataRow = styled('div', {
 	display: 'grid',
 	gridTemplateColumns: '1fr 1fr',
-	gridColumnGap: 12,
+	columnGap: 12,
 });
 
 const MetadataKey = styled('p', {
@@ -119,13 +120,15 @@ const About = () => {
 
 	return (
 		<>
-			<div data-tauri-drag-region style={{
-				height: 32,
-				zIndex: 1,
-				backgroundColor: `rgba(25, 25, 25)`,
-			}}></div>
+			<div
+				data-tauri-drag-region
+				style={{
+					height: 32,
+					zIndex: 1,
+					backgroundColor: `rgba(25, 25, 25)`,
+				}} />
 			<Container>
-				<AppIconPlaceholder src="avatar.png" />
+				<AppIconPlaceholder src="avatar.png" draggable={false} />
 
 				<AppName>{data.appName}</AppName>
 				<Paragraph>
