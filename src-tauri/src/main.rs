@@ -32,7 +32,7 @@ fn main() {
                 .global_shortcut_manager()
                 // TODO: make keyboard shortcut customizable
                 .register("CmdOrCtrl+Shift+2", move || {
-                    stage::main();
+                    // stage::init(&_app_handle);
                 })
                 .unwrap();
         }
