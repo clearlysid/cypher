@@ -10,12 +10,16 @@
     "tauri": "tauri"
   },
   "dependencies": {
-    "@emotion/react": "^11.10.5",
-    "@emotion/styled": "^11.10.5",
+    "@state-designer/react": "^3.0.0",
+    "@stitches/react": "^1.2.8",
     "@tauri-apps/api": "^1.2.0",
+    "@tldraw/core": "^1.20.1",
+    "@tldraw/intersect": "^1.8.0",
+    "@tldraw/vec": "^1.8.0",
     "framer-motion": "^7.6.15",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-feather": "^2.0.10",
     "react-router-dom": "^6.4.3",
     "react-webcam": "^7.0.1"
   },
