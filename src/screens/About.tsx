@@ -9,6 +9,7 @@ const Container = styled(`div`, {
 	flexDirection: 'column',
 	alignItems: 'center',
 	height: `calc(100% - 32px)`,
+	backgroundColor: `rgba(25, 25, 25)`
 });
 
 const AppIconPlaceholder = styled('img', {
@@ -20,6 +21,11 @@ const AppIconPlaceholder = styled('img', {
 	transition: `all 0.2s ease`,
 	border: `2px solid rgba(0, 0, 0, 0.3)`,
 	boxShadow: `0 8px 24px rgba(65, 0, 203, 0.4)`,
+
+	'&:hover': {
+		transform: `scale(1.1) rotate(5deg)`,
+		cursor: `pointer`,
+	}
 });
 
 const AppName = styled('h1', {
@@ -115,7 +121,8 @@ const About = () => {
 		<>
 			<div data-tauri-drag-region style={{
 				height: 32,
-				zIndex: 1
+				zIndex: 1,
+				backgroundColor: `rgba(25, 25, 25)`,
 			}}></div>
 			<Container>
 				<AppIconPlaceholder src="avatar.png" />
