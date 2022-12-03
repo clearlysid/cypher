@@ -3,20 +3,34 @@ import Webcam from "react-webcam";
 function Stage() {
   return (
     <div className="container" style={{
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
       height: '100%',
-      rowGap: 10
+      display: 'flex',
+      borderRadius: '50%',
+      color: 'lightsalmon',
+      alignItems: 'center',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      backgroundColor: 'currentColor',
+      border: '10px solid currentColor',
     }}>
-      <Webcam muted playsInline autoPlay={true} controls={false} style={{
-        width: 300,
-        height: 300,
-        objectFit: "cover",
-        borderRadius: '50%'
-      }}
+      <Webcam
+        muted
+        playsInline
+        autoPlay={true}
+        controls={false}
+        className="webcam"
         data-tauri-drag-region
+        style={{
+          width: '100%',
+          height: '100%',
+          objectFit: "cover",
+          borderRadius: '50%',
+          backgroundColor: 'red',
+          cursor: 'grab',
+          mixBlendMode: 'multiply',
+          margin: 0,
+          padding: 0
+        }}
       />
     </div>
   );

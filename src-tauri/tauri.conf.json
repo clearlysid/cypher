@@ -16,7 +16,7 @@
     "bundle": {
       "active": true,
       "category": "Video",
-      "copyright": "©️Siddharth Jha",
+      "copyright": "Siddharth Jha",
       "deb": {
         "depends": []
       },
@@ -56,6 +56,7 @@
       "iconPath": "icons/icon.png",
       "iconAsTemplate": true,
       "menuOnLeftClick": false
-    }
+    },
+    "macOSPrivateApi": true
   }
 }

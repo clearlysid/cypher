@@ -54,11 +54,11 @@ pub fn on_system_tray_event(app: &AppHandle, event: SystemTrayEvent) {
             size: _,
             ..
         } => {
-            stage::main();
+            stage::init(app);
         }
         SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
             "record" => {
-                stage::main();
+                stage::init(app);
             }
             "preferences" => {
                 // TODO: find out what's the best way to "store" preferences?
