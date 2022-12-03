@@ -7,10 +7,6 @@ const onToolSelect = (e: React.MouseEvent) => {
   machine.send('SELECTED_TOOL', { name: e.currentTarget.id })
 }
 
-const onReset = () => {
-  machine.send('RESET')
-}
-
 export function Toolbar() {
   return (
     <ToolbarContainer>

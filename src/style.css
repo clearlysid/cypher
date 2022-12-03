@@ -26,3 +26,7 @@ body,
 	/* background-color: rgba(20, 20, 20, 0.4); */
 	/* background-color: rgba(25, 25, 25); */
 }
+
+#tl {
+	--tl-background: transparent !important;
+}
