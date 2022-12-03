@@ -29,7 +29,8 @@ function Stage() {
           cursor: 'grab',
           mixBlendMode: 'multiply',
           margin: 0,
-          padding: 0
+          padding: 0,
+          filter: 'contrast(1.2) saturate(0) brightness(1.4)',
         }}
       />
     </div>

@@ -16,17 +16,17 @@ export function Toolbar() {
             <MousePointer />
           </Highlight>
         </PrimaryToolButton>
-        <PrimaryToolButton id="eraser" isActive={machine.isIn('eraser')} onClick={onToolSelect}>
-          <Highlight>
-            <X />
-          </Highlight>
-        </PrimaryToolButton>
         <PrimaryToolButton id="pencil" isActive={machine.isIn('pencil')} onClick={onToolSelect}>
           <Highlight>
             <Edit2 />
           </Highlight>
         </PrimaryToolButton>
-        <PrimaryToolButton id="box" isActive={machine.isIn('box')} onClick={onToolSelect}>
+        <PrimaryToolButton id="eraser" isActive={machine.isIn('eraser')} onClick={onToolSelect}>
+          <Highlight>
+            <X />
+          </Highlight>
+        </PrimaryToolButton>
+        {/* <PrimaryToolButton id="box" isActive={machine.isIn('box')} onClick={onToolSelect}>
           <Highlight>
             <Square />
           </Highlight>
@@ -35,7 +35,7 @@ export function Toolbar() {
           <Highlight>
             <ArrowUpRight />
           </Highlight>
-        </PrimaryToolButton>
+        </PrimaryToolButton> */}
       </PrimaryTools>
     </ToolbarContainer>
   )
@@ -47,20 +47,21 @@ const ToolbarContainer = styled('div', {
   gridTemplateRows: 'auto auto',
   gridRowGap: '$5',
   position: 'fixed',
-  bottom: '0',
+  bottom: '48px',
   width: '100%',
-  zIndex: '100',
+  zIndex: '100'
 })
 
 const PrimaryTools = styled('div', {
   display: 'flex',
   width: 'fit-content',
   borderRadius: '100px',
-  border: '1px solid $border',
   overflow: 'hidden',
-  padding: '$2',
+  padding: '2px',
+  border: '2px solid rgba(0,0,0, 0.4)',
   justifySelf: 'center',
-  backgroundColor: '$background',
+  backgroundColor: 'lightsalmon',
+  boxShadow: '0 8px 16px rgba(0,0,0, 0.4)',
 })
 
 const Highlight = styled('div', {

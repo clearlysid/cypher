@@ -3,9 +3,7 @@ import {
   Renderer,
   TLBounds,
   TLKeyboardEventHandler,
-  TLPinchEventHandler,
   TLPointerEventHandler,
-  TLWheelEventHandler,
 } from '@tldraw/core'
 import * as React from 'react'
 import { Api } from './state/api'
@@ -52,25 +50,6 @@ const onPointerMove: TLPointerEventHandler = (info, e) => {
   machine.send('MOVED_POINTER', info)
 }
 
-const onPan: TLWheelEventHandler = (info, e) => {
-  machine.send('PANNED', info)
-}
-
-const onPinchStart: TLPinchEventHandler = (info, e) => {
-  machine.send('STARTED_PINCHING', info)
-}
-
-const onPinch: TLPinchEventHandler = (info, e) => {
-  machine.send('PINCHED', info)
-}
-
-const onPinchEnd: TLPinchEventHandler = (info, e) => {
-  machine.send('STOPPED_PINCHING', info)
-}
-
-const onPointBoundsHandle: TLPinchEventHandler = (info, e) => {
-  machine.send('POINTED_BOUNDS_HANDLE', info)
-}
 
 const onBoundsChange = (bounds: TLBounds) => {
   machine.send('RESIZED', { bounds })
@@ -91,32 +70,6 @@ const onKeyDown: TLKeyboardEventHandler = (key, info, e) => {
     }
     case 'Escape': {
       machine.send('CANCELLED', info)
-      break
-    }
-    case '0': {
-      machine.send('ZOOMED_TO_ACTUAL', info)
-      break
-    }
-    case '1': {
-      machine.send('ZOOMED_TO_FIT', info)
-      break
-    }
-    case '2': {
-      machine.send('ZOOMED_TO_SELECTION', info)
-      break
-    }
-    case '=': {
-      if (info.metaKey || info.ctrlKey) {
-        e.preventDefault()
-        machine.send('ZOOMED_IN', info)
-      }
-      break
-    }
-    case '-': {
-      if (info.metaKey || info.ctrlKey) {
-        e.preventDefault()
-        machine.send('ZOOMED_OUT', info)
-      }
       break
     }
     case 's':
@@ -209,12 +162,7 @@ export default function Tldraw({ onMount }: AppProps) {
         onPointerMove={onPointerMove}
         onHoverShape={onHoverShape}
         onUnhoverShape={onUnhoverShape}
-        onPointBoundsHandle={onPointBoundsHandle}
         onPointHandle={onPointHandle}
-        onPan={onPan}
-        onPinchStart={onPinchStart}
-        onPinchEnd={onPinchEnd}
-        onPinch={onPinch}
         onPointerUp={onPointerUp}
         onBoundsChange={onBoundsChange}
         onKeyDown={onKeyDown}
@@ -239,4 +187,5 @@ const AppContainer = styled('div', {
   width: '100%',
   height: '100%',
   zIndex: 101,
+  cursor: 'wait'
 })
