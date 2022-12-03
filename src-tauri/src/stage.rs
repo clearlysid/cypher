@@ -33,7 +33,7 @@ pub fn main() {
             "-f",
             "avfoundation",
             "-r",
-            "60",
+            "30",
             "-s",
             "1920x1080",
             "-i",
