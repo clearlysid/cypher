@@ -1,21 +1,22 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Stage from "./screens/Stage";
-import About from "./screens/About";
-import Whiteboard from "./screens/Whiteboard";
-import Preferences from "./screens/Preferences";
+import Camera from "./views/Camera";
+import About from "./views/About";
+import Whiteboard from "./views/Whiteboard";
+import Preferences from "./views/Preferences";
+import Toolbar from "./views/Toolbar";
 import "./style.css";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route index element={<Stage />} />
         <Route path="about" element={<About />} />
         <Route path="preferences" element={<Preferences />} />
-        <Route path="stage" element={<Stage />} />
+        <Route path="camera" element={<Camera />} />
         <Route path="whiteboard" element={<Whiteboard />} />
+        <Route path="toolbar" element={<Toolbar />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
