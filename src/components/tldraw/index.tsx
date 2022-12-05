@@ -7,8 +7,7 @@ import {
 } from '@tldraw/core'
 import * as React from 'react'
 import { Api } from './state/api'
-import styled from './stitches.config'
-import { Toolbar } from './components/Toolbar'
+import { styled } from '../../stiches.config'
 import { shapeUtils } from './shapes'
 import { machine } from './state/machine'
 
@@ -146,6 +145,11 @@ export default function Tldraw({ onMount }: AppProps) {
   //   (shapeUtils[firstShape.type] as any).hideResizeHandles
   //   : false
 
+  const onToolSelect = (e: React.MouseEvent) => {
+    machine.send('SELECTED_TOOL', { name: e.currentTarget.id })
+  }
+
+
   return (
     <AppContainer>
       <Renderer
@@ -173,7 +177,6 @@ export default function Tldraw({ onMount }: AppProps) {
         hideIndicators={hideBounds}
         hideBindingHandles={true}
       />
-      <Toolbar />
     </AppContainer>
   )
 }

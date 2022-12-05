@@ -1,4 +1,4 @@
-import { createStitches, defaultThemeMap } from '@stitches/react'
+import { createStitches, defaultThemeMap } from "@stitches/react"
 
 export const { styled } = createStitches({
   themeMap: {
@@ -15,4 +15,3 @@ export const { styled } = createStitches({
   },
 })
 
-export default styled

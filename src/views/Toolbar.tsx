@@ -1,11 +1,15 @@
 import * as React from 'react'
 import { Edit2, MousePointer, X, Camera } from 'react-feather'
 import { machine } from '../components/tldraw/state/machine'
-import styled from '../components/tldraw/stitches.config'
+import { styled } from '../stiches.config'
 
 const onToolSelect = (e: React.MouseEvent) => {
 	machine.send('SELECTED_TOOL', { name: e.currentTarget.id })
 }
+
+// This toolbar needs to be able to manage the state of all Windows
+// Defaults need to be picked from the preferences pane.
+// Rust can "store" the defaults, but mutable state should be managed from React.
 
 export default function Toolbar() {
 	return (
