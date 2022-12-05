@@ -1,6 +1,6 @@
 import Webcam from "react-webcam";
 
-function Stage() {
+function Camera() {
   return (
     <div className="container" style={{
       height: '100%',
@@ -37,4 +37,4 @@ function Stage() {
   );
 }
 
-export default Stage;
+export default Camera;
